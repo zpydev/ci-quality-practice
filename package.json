@@ -1,0 +1,11 @@
+{
+  "name": "ci-quality-practice",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal practice repository for CI workflow construction",
+  "scripts": {
+    "lint": "node scripts/check-syntax.mjs",
+    "test": "node --test"
+  }
+}
