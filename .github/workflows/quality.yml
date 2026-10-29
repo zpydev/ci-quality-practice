@@ -1,0 +1,41 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Reads the exact Node.js version (24.7.0) from your .nvmrc file
+          node-version-file: '.nvmrc'
+          # Caches npm cache directory if package-lock.json is committed
+          cache: 'npm'
+
+      - name: Install dependencies
+        # Uses clean install without running lifecycle scripts or unnecessary network audits
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Check syntax (lint)
+        run: npm run lint
+
+      - name: Run automated tests
+        run: npm test
